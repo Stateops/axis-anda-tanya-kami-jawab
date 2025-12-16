@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AXIS – Anda Tanya, Kami Jawab</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:#0f172a; color:#e5e7eb;}
+    .app { max-width:480px; margin:0 auto; min-height:100vh; display:flex; flex-direction:column;}
+    header { padding:16px; background:#020617; position:sticky; top:0;}
+    h1 { font-size:1.1rem; margin:0; }
+    main { flex:1; padding:16px; }
+    .card { background:#020617; border-radius:14px; padding:16px; box-shadow:0 10px 25px rgba(0,0,0,.25); }
+    .title { font-size:1.2rem; font-weight:700; margin-bottom:8px;}
+    .muted { color:#94a3b8; font-size:.9rem; }
+    .btn { display:block; width:100%; padding:14px; margin:10px 0; border-radius:12px; border:0; background:#2563eb; color:white; font-size:1rem; font-weight:600; }
+    .btn.secondary { background:#334155; }
+    .btn.green { background:#16a34a; }
+    .btn.red { background:#dc2626; }
+    .result { border-left:4px solid #22c55e; padding-left:12px; margin-top:10px;}
+    .warn { border-left-color:#f59e0b; }
+    footer { padding:12px; text-align:center; color:#94a3b8; font-size:.8rem;}
+    .hidden { display:none; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>AXIS – ANDA TANYA, KAMI JAWAB</h1>
+  </header>
+  <main>
+    <!-- HOME -->
+    <section id="home" class="card">
+      <div class="title">Pilih masalah</div>
+      <p class="muted">Ikut arahan sehingga dapat jawapan</p>
+      <button class="btn" onclick="go('outscan_q1')">🚚 Saya tak boleh Outscan</button>
+      <button class="btn secondary" onclick="go('item_q1')">📦 Item tiada dalam list</button>
+      <button class="btn secondary" onclick="go('pod_q1')">🧾 Tak boleh buat POD</button>
+      <button class="btn secondary" onclick="go('rts_q1')">🔁 Status salah / RTS not allowed</button>
+      <button class="btn secondary" onclick="go('sys_q1')">⚠️ Sistem AXIS perlahan / error</button>
+    </section>
+
+    <!-- OUTSCAN -->
+    <section id="outscan_q1" class="card hidden">
+      <div class="title">Outscan</div>
+      <p>Apakah <b>current flow</b> item ini?</p>
+      <button class="btn" onclick="go('outscan_res_a')">🅰️ Waiting Shipment Transfer</button>
+      <button class="btn secondary" onclick="go('outscan_q2')">🅱️ Delivery</button>
+    </section>
+
+    <section id="outscan_res_a" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result">
+        <b>PUNCA:</b> Item masih di <i>Waiting Shipment Transfer</i><br/><br/>
+        <b>TINDAKAN:</b>
+        <ol>
+          <li>Buat <b>Force Inbound</b></li>
+          <li>Teruskan <b>Outscan</b></li>
+        </ol>
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <section id="outscan_q2" class="card hidden">
+      <div class="title">Outscan</div>
+      <p>Adakah item telah dibuat <b>Arrival Scan</b>?</p>
+      <button class="btn" onclick="go('outscan_res_b2')">✅ Ya</button>
+      <button class="btn secondary" onclick="go('outscan_res_b1')">❌ Tidak</button>
+    </section>
+
+    <section id="outscan_res_b1" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        <b>PUNCA:</b> Arrival Scan belum dibuat<br/><br/>
+        <b>TINDAKAN:</b> Minta Hub/Branch buat <b>Arrival Scan</b>, kemudian cuba Outscan semula.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <section id="outscan_res_b2" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        <b>SEMAKAN:</b>
+        <ol>
+          <li>Route telah di-assign</li>
+          <li>Logout & login semula AXIS</li>
+          <li>Refresh aplikasi</li>
+        </ol>
+        Jika masih gagal, hubungi <b>BGS</b>.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <!-- ITEM -->
+    <section id="item_q1" class="card hidden">
+      <div class="title">Item Tiada Dalam List</div>
+      <p>Adakah item ini untuk delivery <b>hari ini</b>?</p>
+      <button class="btn" onclick="go('item_q2')">✅ Ya</button>
+      <button class="btn secondary" onclick="go('item_res_a')">❌ Tidak</button>
+    </section>
+
+    <section id="item_res_a" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result">
+        Item bukan delivery hari ini. Sila semak tarikh delivery atau tunggu release ke delivery flow.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <section id="item_q2" class="card hidden">
+      <div class="title">Item Tiada Dalam List</div>
+      <p>Adakah item telah dibuat <b>Arrival Scan</b>?</p>
+      <button class="btn" onclick="go('item_res_b')">✅ Ya</button>
+      <button class="btn secondary" onclick="go('item_res_c')">❌ Tidak</button>
+    </section>
+
+    <section id="item_res_b" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        Sila semak route assignment, logout/login. Jika masih tiada, hubungi <b>BGS</b>.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <section id="item_res_c" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        Item belum Arrival ke branch. Minta Hub buat <b>Arrival Scan</b> dan refresh AXIS.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <!-- POD -->
+    <section id="pod_q1" class="card hidden">
+      <div class="title">POD</div>
+      <p>Item sudah berjaya <b>Outscan</b>?</p>
+      <button class="btn" onclick="go('pod_q2')">✅ Ya</button>
+      <button class="btn secondary" onclick="go('pod_res_a')">❌ Tidak</button>
+    </section>
+
+    <section id="pod_res_a" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        POD hanya boleh dibuat selepas Outscan. Selesaikan Outscan dahulu.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <section id="pod_q2" class="card hidden">
+      <div class="title">POD</div>
+      <p>Masalah yang berlaku?</p>
+      <button class="btn" onclick="go('pod_res_b')">🅰️ Gambar tak boleh upload</button>
+      <button class="btn secondary" onclick="go('pod_res_c')">🅱️ Internet / line</button>
+    </section>
+
+    <section id="pod_res_b" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        Ambil gambar semula (jelas, item & background), kemudian cuba POD semula.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <section id="pod_res_c" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        Cuba di kawasan line lebih baik atau buat POD kemudian.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <!-- RTS -->
+    <section id="rts_q1" class="card hidden">
+      <div class="title">RTS</div>
+      <p>Item telah dibuat <b>Outscan</b>?</p>
+      <button class="btn" onclick="go('rts_res_b')">✅ Ya</button>
+      <button class="btn secondary" onclick="go('rts_res_a')">❌ Tidak</button>
+    </section>
+
+    <section id="rts_res_a" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        RTS tidak dibenarkan sebelum Outscan. Sila buat Outscan dahulu.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <section id="rts_res_b" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        Sahkan status sebenar item dan hubungi <b>BGS / Control Tower</b> untuk pembetulan.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <!-- SYSTEM -->
+    <section id="sys_q1" class="card hidden">
+      <div class="title">Sistem AXIS</div>
+      <p>Masalah berlaku pada semua item?</p>
+      <button class="btn" onclick="go('sys_res_a')">✅ Ya</button>
+      <button class="btn secondary" onclick="go('sys_res_b')">❌ Tidak</button>
+    </section>
+
+    <section id="sys_res_a" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        Kemungkinan gangguan sistem AXIS. Tunggu makluman rasmi dan cuba semula selepas 10–15 minit.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+
+    <section id="sys_res_b" class="card hidden">
+      <div class="title">Jawapan</div>
+      <div class="result warn">
+        Logout & login semula atau restart aplikasi. Jika berterusan, lapor kepada <b>BGS</b>.
+      </div>
+      <button class="btn green" onclick="go('home')">Semak masalah lain</button>
+    </section>
+  </main>
+  <footer>AXIS Quick Fix • Offline-ready single file</footer>
+</div>
+
+<script>
+  function go(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    window.scrollTo(0,0);
+  }
+</script>
+</body>
+</html>
