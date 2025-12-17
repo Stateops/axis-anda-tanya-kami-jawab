@@ -1,43 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>ATKJ – Anda Tanya, Kami Jawab</title>
   <style>
-    :root{
-      --bg:#0b1220; --card:#0c1b33; --text:#e5e7eb; --muted:#94a3b8;
-      --primary:#2563eb; --secondary:#334155; --ok:#16a34a; --warn:#f59e0b;
-      --shadow:0 14px 34px rgba(0,0,0,.35); --radius:18px;
-    }
+    :root{--bg:#0b1220;--text:#e5e7eb;--muted:#94a3b8;--primary:#2563eb;--secondary:#334155;--ok:#16a34a;--warn:#f59e0b;--shadow:0 14px 34px rgba(0,0,0,.35);--radius:18px}
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 10% 0%, rgba(37,99,235,.25), transparent 60%),
-                  radial-gradient(900px 500px at 95% 10%, rgba(22,163,74,.16), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-    }
-    .app{max-width:780px;margin:0 auto;min-height:100vh;padding:14px 14px calc(18px + env(safe-area-inset-bottom));}
-    header{position:sticky;top:0;z-index:10;padding:10px 0 12px;background:linear-gradient(180deg, rgba(11,18,32,.96), rgba(11,18,32,.80));backdrop-filter: blur(10px);}
-    .top{display:flex;align-items:center;gap:10px}
-    .pill{font-size:.78rem;color:var(--muted);padding:6px 10px;border:1px solid rgba(148,163,184,.25);border-radius:999px;background: rgba(10,22,42,.5);}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:
+      radial-gradient(1200px 600px at 10% 0%,rgba(37,99,235,.25),transparent 60%),
+      radial-gradient(900px 500px at 95% 10%,rgba(22,163,74,.16),transparent 55%),
+      var(--bg);color:var(--text)}
+    .app{max-width:860px;margin:0 auto;min-height:100vh;padding:14px 14px calc(18px + env(safe-area-inset-bottom))}
+    header{position:sticky;top:0;z-index:10;padding:10px 0 12px;background:linear-gradient(180deg,rgba(11,18,32,.96),rgba(11,18,32,.80));backdrop-filter:blur(10px)}
+    .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .pill{font-size:.78rem;color:var(--muted);padding:6px 10px;border:1px solid rgba(148,163,184,.25);border-radius:999px;background:rgba(10,22,42,.5)}
     h1{margin:8px 0 0;font-size:1.05rem;letter-spacing:.2px}
-    main{padding-top:8px}
-    .card{background:linear-gradient(180deg, rgba(12,27,51,.95), rgba(10,22,42,.85));border:1px solid rgba(148,163,184,.14);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
+    .card{background:linear-gradient(180deg,rgba(12,27,51,.95),rgba(10,22,42,.85));border:1px solid rgba(148,163,184,.14);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
     .title{font-size:1.15rem;font-weight:900;margin:0 0 6px}
     .muted{color:var(--muted);font-size:.92rem;margin:0 0 10px}
     .qtext{font-size:1.02rem;line-height:1.3;margin:10px 0 6px}
     .grid{display:grid;gap:10px}
-    .btn{width:100%;border:0;border-radius:16px;padding:18px 16px;font-size:1.05rem;font-weight:900;color:#fff;background:var(--primary);cursor:pointer;box-shadow:0 10px 20px rgba(37,99,235,.22);}
+    .btn{width:100%;border:0;border-radius:16px;padding:18px 16px;font-size:1.05rem;font-weight:900;color:#fff;background:var(--primary);cursor:pointer;box-shadow:0 10px 20px rgba(37,99,235,.22)}
     .btn.secondary{background:var(--secondary);box-shadow:none}
     .btn.ok{background:var(--ok);box-shadow:none}
     .btn.link{background:transparent;border:1px solid rgba(148,163,184,.25);color:var(--text);box-shadow:none}
-    .result{margin-top:12px;padding:12px 12px 10px;border-left:5px solid var(--warn);background: rgba(2,6,23,.35);border-radius:14px;}
+    .result{margin-top:12px;padding:12px 12px 10px;border-left:5px solid var(--warn);background:rgba(2,6,23,.35);border-radius:14px}
     .label{font-weight:900}
-    footer{text-align:center;color:var(--muted);font-size:.8rem;padding:14px 0 0}
     .hidden{display:none}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    footer{text-align:center;color:var(--muted);font-size:.8rem;padding:14px 0 0}
   </style>
 </head>
 <body>
@@ -45,6 +37,7 @@
   <header>
     <div class="top">
       <button id="backBtn" class="btn link" style="width:auto;padding:10px 12px;border-radius:14px" onclick="back()">←</button>
+      <button class="pill" onclick="goHome()" style="cursor:pointer">Home</button>
       <div class="pill" id="crumb">Home</div>
     </div>
     <h1>ATKJ – ANDA TANYA, KAMI JAWAB</h1>
@@ -54,61 +47,19 @@
     <section id="home" class="card">
       <div class="title">Pilih masalah</div>
       <p class="muted">Tekan satu isu, ikut soalan sampai dapat jawapan.</p>
-      <div class="grid">
-        <button class="btn" onclick="go('q_outscan')">🚚 Tidak dapat Outscan</button>
-      </div>
-      <p class="muted" style="margin-top:12px;">Tip: Tambah flow lain kemudian, Budin boleh gabung semua dalam menu ni.</p>
+      <div class="grid" id="catList"></div>
     </section>
 
-    <section id="q_outscan" class="card hidden">
-      <div class="title">Tidak dapat Outscan</div>
-      <p class="muted">Soalan 1</p>
-      <div class="qtext">❓ Apakah current flow item ini?</div>
-
-      <div class="grid" style="margin-top:10px">
-        <button class="btn" onclick="go('r1')">A. Waiting Shipment Transfer</button>
-        <button class="btn secondary" onclick="go('r2')">B. Delivery</button>
-        <button class="btn secondary" onclick="go('r3')">C. Window Delivery</button>
-        <button class="btn secondary" onclick="go('r4')">D. Waiting For Console Delivery Status</button>
+    <section id="screen" class="card hidden">
+      <div class="title" id="screenTitle">Soalan</div>
+      <p class="muted" id="screenMeta"></p>
+      <div class="qtext" id="screenQuestion"></div>
+      <div class="grid" id="screenOptions"></div>
+      <div id="screenResult" class="result hidden"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn link" onclick="goHome()" style="flex:1">🏠 Home</button>
+        <button class="btn ok" onclick="back()" style="flex:1">↩️ Back</button>
       </div>
-
-      <button class="btn link" onclick="go('home')" style="margin-top:12px">🏠 Home</button>
-    </section>
-
-    <section id="r1" class="card hidden">
-      <div class="title">Jawapan</div>
-      <div class="result">
-        <div><span class="label">PUNCA:</span><br/>Item masih di Waiting Shipment Transfer</div>
-        <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Buat Force Inbound dan teruskan Outscan</div>
-      </div>
-      <button class="btn ok" onclick="go('home')">Semak masalah lain</button>
-    </section>
-
-    <section id="r2" class="card hidden">
-      <div class="title">Jawapan</div>
-      <div class="result">
-        <div><span class="label">PUNCA:</span><br/>Item berada di cawangan lain</div>
-        <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Buat 'Miscoded' dan teruskan Outscan</div>
-      </div>
-      <button class="btn ok" onclick="go('home')">Semak masalah lain</button>
-    </section>
-
-    <section id="r3" class="card hidden">
-      <div class="title">Jawapan</div>
-      <div class="result">
-        <div><span class="label">PUNCA:</span><br/>Item masih berada pada Window Delivery</div>
-        <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Reattempt delivery pada Window Delivery</div>
-      </div>
-      <button class="btn ok" onclick="go('home')">Semak masalah lain</button>
-    </section>
-
-    <section id="r4" class="card hidden">
-      <div class="title">Jawapan</div>
-      <div class="result">
-        <div><span class="label">PUNCA:</span><br/>Item masih berada dalam konsol Last Mile</div>
-        <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Last Mile Order - Remove from psm - pilih nombor item - cancel process</div>
-      </div>
-      <button class="btn ok" onclick="go('home')">Semak masalah lain</button>
     </section>
   </main>
 
@@ -116,40 +67,166 @@
 </div>
 
 <script>
-  const screens = ['home','q_outscan','r1','r2','r3','r4'];
-  let stack = [];
-  const crumb = document.getElementById('crumb');
-  const backBtn = document.getElementById('backBtn');
+const DATA = {
+  "categories":[
+    {"name":"Barkod Remitan tiada","start":"Q3","icon":"🏷️"},
+    {"name":"COD tiada nilai","start":"Q6","icon":"💰"},
+    {"name":"Makluman","start":"M1","icon":"📢"},
+    {"name":"Tak boleh Outscan RTS","start":"Q2","icon":"↩️"},
+    {"name":"Tidak dapat bagging","start":"Q5","icon":"🧳"},
+    {"name":"Tidak dapat Outscan","start":"Q1","icon":"🚚"}
+  ],
+  "questions":{
+    "Q1":{"id":"Q1","cat":"Tidak dapat Outscan","text":"Apakah current flow item ini?","options":[
+      {"label":"Waiting Shipment Transfer","next":"R1"},
+      {"label":"Delivery","next":"R2"},
+      {"label":"Window Delivery","next":"R3"},
+      {"label":"Waiting For Console Delivery Status","next":"R4"},
+      {"label":"Wait for Pickup","next":"R5"},
+      {"label":"Web Inbound","next":"R6"},
+      {"label":"Waiting for Pre_a","next":"R7"}
+    ]},
+    "Q2":{"id":"Q2","cat":"Tak boleh Outscan RTS","text":"Apakah current flow item ini?","options":[
+      {"label":"Waiting International Update","next":"R8"},
+      {"label":"Delivery","next":"R9"}
+    ]},
+    "Q3":{"id":"Q3","cat":"Barkod Remitan tiada","text":"Anda anda sudah generate barkod?","options":[
+      {"label":"Ya","next":"R10"},
+      {"label":"Tidak","next":"R11"}
+    ]},
+    "Q4":{"id":"Q4","cat":"Tidak dapat Outscan","text":"Apakah current flow item ini?","options":[
+      {"label":"Inventory Recon","next":"R12"},
+      {"label":"No Result Found for Reference ID","next":"R13"}
+    ]},
+    "Q5":{"id":"Q5","cat":"Tidak dapat bagging","text":"Apakah current flow item ini?","options":[
+      {"label":"Waiting International Update","next":"R14"}
+    ]},
+    "Q6":{"id":"Q6","cat":"COD tiada nilai","text":"Adakah terdapat nilai pada \"Amount to be Collected\"","options":[
+      {"label":"Ya","next":"R15"},
+      {"label":"Tiada","next":"R16"}
+    ]}
+  },
+  "results":{
+    "R1":{"title":"Tidak dapat Outscan","root":"Item masih di Mid Mile","action":"Buat Force Inbound dan teruskan Outscan","escalation":"","notes":""},
+    "R2":{"title":"Tidak dapat Outscan","root":"Item berada di cawangan lain","action":"Buat 'Miscoded' dan teruskan Outscan","escalation":"","notes":""},
+    "R3":{"title":"Tidak dapat Outscan","root":"Item Masih berada pada Window Delivery","action":"Reattempt delivery pada Window Delivery","escalation":"","notes":""},
+    "R4":{"title":"Tidak dapat Outscan","root":"Item Masih berada dalam konsol Last Mile","action":"Last Mile Order - Remove from psm - pilih nombor item - cancel process","escalation":"","notes":""},
+    "R5":{"title":"Tidak dapat Outscan","root":"Item tiada penerimaan (Acceptance)","action":"Item perlu di buat Penerimaan oleh pejabat pengirim","escalation":"Hubungi State Trainer","notes":""},
+    "R6":{"title":"Tidak dapat Outscan","root":"Item tiada penerimaan (Acceptance)","action":"Item perlu di buat Penerimaan oleh pejabat pengirim","escalation":"Hubungi State Trainer","notes":""},
+    "R7":{"title":"Tidak dapat Outscan","root":"Item tiada penerimaan (Acceptance)","action":"Item perlu di buat Penerimaan oleh pejabat pengirim","escalation":"Hubungi State Trainer","notes":""},
+    "R8":{"title":"Tak boleh Outscan RTS","root":"Item belum di buat imbasan RTS","action":"Buat 'Initiate RTS' dan masukkan poskod perngirim","escalation":"","notes":""},
+    "R9":{"title":"Tak boleh Outscan RTS","root":"Item belum di buat imbasan RTS","action":"Buat 'Initiate RTS' dan masukkan poskod perngirim","escalation":"","notes":""},
+    "R10":{"title":"Barkod Remitan tiada","root":"Sila hubungi State Trainer Negeri","action":"","escalation":"","notes":""},
+    "R11":{"title":"Barkod Remitan tiada","root":"","action":"Sila klik \"Generate Barcode\"","escalation":"","notes":""},
+    "R12":{"title":"Tidak dapat Outscan","root":"Item telah dibuat cubaan serahan sebanyak 3 kali atau mengunakan 4 alasan gagal serah (Meninggal dunia/Enggan Terima/Tiada Penerima/Pindah)","action":"Item perlu dibuat Delivery Reattempt di Last Mile Order - Reattempt Confirmation - Cari Item - Delivery Reattempt","escalation":"","notes":""},
+    "R13":{"title":"Tidak dapat Outscan","root":"Item tiada Pre-Accaptance","action":"Hubungi Master Trainer untuk mengemaskini status Pre Accaptance item","escalation":"","notes":""},
+    "R14":{"title":"Tidak dapat bagging","root":"Pejabat asal tidak membuat direct bagging ke IPC","action":"Buat 'Initiate RTS', pilih return to PMIH dan masukkan poskod 00000","escalation":"Hubungi State Trainer","notes":""},
+    "R15":{"title":"COD tiada nilai","root":"Pelanggan telah selesai membuat pembayaran kepada seller","action":"Semak pada process tracking jika ada imbasan payment mode updated, jika ada teruskan dengan serahan item normal","escalation":"Hubungi State Trainer","notes":""},
+    "R16":{"title":"COD tiada nilai","root":"Pejabat asal menggunakan imbasan Domestic Manual Connote (DMC)","action":"Hubungi Master Trainer untuk mengemaskini status Pre Accaptance item","escalation":"","notes":""}
+  },
+  "singles":{
+    "M1":{"cat":"Makluman","id":"M1","text":"DLO initiate by API","root":"Perkara ini terjadi apabila Shopee telah memberi arahan untuk  item dikembalikan kepada pengirim atau hantar ke DLO melalui API (Sistem Shopee).","action":"Terus bagging semua ke pejabat pengirim, Jangan lakukan serahan manual tanpa sebarang imbasan!!","escalation":"Hubungi State Trainer","notes":""},
+    "M2":{"cat":"Makluman","id":"M2","text":"RTO Initiate by API","root":"Perkara ini terjadi apabila Shopee telah memberi arahan untuk  item dikembalikan kepada pengirim atau hantar ke DLO melalui API (Sistem Shopee).","action":"Terus Bagging ke DLO,Jangan lakukan serahan manual tanpa sebarang imbasan!!","escalation":"Hubungi State Trainer","notes":""}
+  }
+};
 
-  function show(id){
-    screens.forEach(s => document.getElementById(s).classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
-    window.scrollTo(0,0);
+const crumb=document.getElementById('crumb'), backBtn=document.getElementById('backBtn');
+const homeEl=document.getElementById('home'), screenEl=document.getElementById('screen');
+const catList=document.getElementById('catList');
+const screenTitle=document.getElementById('screenTitle'), screenMeta=document.getElementById('screenMeta');
+const screenQuestion=document.getElementById('screenQuestion'), screenOptions=document.getElementById('screenOptions');
+const screenResult=document.getElementById('screenResult');
+let stack=[], lastNode=null;
+
+function setCrumb(t){crumb.textContent=t;}
+function escapeHtml(s){return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');}
+function showHome(){homeEl.classList.remove('hidden');screenEl.classList.add('hidden');setCrumb('Home');backBtn.style.visibility='hidden';stack=[];lastNode=null;window.scrollTo(0,0);}
+function goHome(){showHome();}
+function renderCategories(){
+  catList.innerHTML='';
+  DATA.categories.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='btn'+(i===0?'':' secondary');
+    b.textContent=`${c.icon} ${c.name}`;
+    b.onclick=()=>openNode(c.start,c.name);
+    catList.appendChild(b);
+  });
+}
+
+function openNode(id, catName){
+  if(lastNode) stack.push(lastNode);
+  lastNode={id,catName};
+  backBtn.style.visibility='visible';
+
+  const q=DATA.questions[id], r=DATA.results[id], s=DATA.singles[id];
+
+  if(q){
+    setCrumb(catName||q.cat);
+    screenTitle.textContent=q.cat;
+    screenMeta.textContent=`Soalan: ${q.id}`;
+    screenQuestion.textContent=`❓ ${q.text}`;
+    screenOptions.innerHTML='';
+    screenResult.classList.add('hidden');
+
+    q.options.forEach((o,idx)=>{
+      const b=document.createElement('button');
+      b.className='btn'+(idx===0?'':' secondary');
+      b.textContent=o.label||`Pilihan ${idx+1}`;
+      b.onclick=()=>openNode(o.next,q.cat);
+      screenOptions.appendChild(b);
+    });
+  } else if(r){
+    setCrumb(catName||r.title||'Jawapan');
+    screenTitle.textContent=catName||r.title||'Jawapan';
+    screenMeta.textContent='Final';
+    screenQuestion.textContent='✅ Jawapan / Tindakan';
+    screenOptions.innerHTML='';
+
+    const parts=[];
+    if(r.root) parts.push(`<div><span class="label">PUNCA:</span><br/>${escapeHtml(r.root)}</div>`);
+    if(r.action) parts.push(`<div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>${escapeHtml(r.action)}</div>`);
+    if(r.escalation) parts.push(`<div style="margin-top:10px"><span class="label">ESCALATION:</span><br/>${escapeHtml(r.escalation)}</div>`);
+    if(r.notes) parts.push(`<div style="margin-top:10px"><span class="label">NOTES:</span><br/>${escapeHtml(r.notes)}</div>`);
+    screenResult.innerHTML=parts.join('')||'<div>Tiada maklumat.</div>';
+    screenResult.classList.remove('hidden');
+  } else if(s){
+    setCrumb(s.cat);
+    screenTitle.textContent=s.cat;
+    screenMeta.textContent=`Makluman: ${s.id}`;
+    screenQuestion.textContent=s.text?`📢 ${s.text}`:'📢 Makluman';
+    screenOptions.innerHTML='';
+
+    const parts=[];
+    if(s.root) parts.push(`<div><span class="label">PENERANGAN:</span><br/>${escapeHtml(s.root)}</div>`);
+    if(s.action) parts.push(`<div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>${escapeHtml(s.action)}</div>`);
+    if(s.escalation) parts.push(`<div style="margin-top:10px"><span class="label">ESCALATION:</span><br/>${escapeHtml(s.escalation)}</div>`);
+    if(s.notes) parts.push(`<div style="margin-top:10px"><span class="label">NOTES:</span><br/>${escapeHtml(s.notes)}</div>`);
+    screenResult.innerHTML=parts.join('')||'<div>Tiada maklumat.</div>';
+    screenResult.classList.remove('hidden');
+  } else {
+    setCrumb('Tidak jumpa');
+    screenTitle.textContent='Tidak jumpa';
+    screenMeta.textContent='';
+    screenQuestion.textContent=`ID tidak dijumpai: ${id}`;
+    screenOptions.innerHTML='';
+    screenResult.innerHTML='<div>Sila semak “Next ID”.</div>';
+    screenResult.classList.remove('hidden');
   }
 
-  function setCrumb(id){
-    if(id === 'home'){ crumb.textContent = 'Home'; return; }
-    if(id === 'q_outscan'){ crumb.textContent = 'Tidak dapat Outscan'; return; }
-    crumb.textContent = 'Jawapan';
-  }
+  homeEl.classList.add('hidden');
+  screenEl.classList.remove('hidden');
+  window.scrollTo(0,0);
+}
 
-  function go(id){
-    const current = screens.find(s => !document.getElementById(s).classList.contains('hidden')) || 'home';
-    stack.push(current);
-    backBtn.style.visibility = stack.length ? 'visible' : 'hidden';
-    setCrumb(id);
-    show(id);
-  }
+function back(){
+  const prev=stack.pop();
+  if(!prev){showHome();return;}
+  lastNode=null;
+  openNode(prev.id, prev.catName);
+}
 
-  function back(){
-    const prev = stack.pop() || 'home';
-    backBtn.style.visibility = stack.length ? 'visible' : 'hidden';
-    setCrumb(prev);
-    show(prev);
-  }
-
-  backBtn.style.visibility = 'hidden';
-  setCrumb('home');
+showHome();
+renderCategories();
 </script>
 </body>
 </html>
