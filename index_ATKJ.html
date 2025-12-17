@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ATKJ – Anda Tanya, Kami Jawab</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#0c1b33; --text:#e5e7eb; --muted:#94a3b8;
+      --primary:#2563eb; --secondary:#334155; --ok:#16a34a; --warn:#f59e0b;
+      --shadow:0 14px 34px rgba(0,0,0,.35); --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 10% 0%, rgba(37,99,235,.25), transparent 60%),
+                  radial-gradient(900px 500px at 95% 10%, rgba(22,163,74,.16), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .app{max-width:820px;margin:0 auto;min-height:100vh;padding:14px 14px calc(18px + env(safe-area-inset-bottom));}
+    header{position:sticky;top:0;z-index:10;padding:10px 0 12px;background:linear-gradient(180deg, rgba(11,18,32,.96), rgba(11,18,32,.80));backdrop-filter: blur(10px);}
+    .top{display:flex;align-items:center;gap:10px}
+    .pill{font-size:.78rem;color:var(--muted);padding:6px 10px;border:1px solid rgba(148,163,184,.25);border-radius:999px;background: rgba(10,22,42,.5);}
+    h1{margin:8px 0 0;font-size:1.05rem;letter-spacing:.2px}
+    main{padding-top:8px}
+    .card{background:linear-gradient(180deg, rgba(12,27,51,.95), rgba(10,22,42,.85));border:1px solid rgba(148,163,184,.14);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);}
+    .title{font-size:1.15rem;font-weight:900;margin:0 0 6px}
+    .muted{color:var(--muted);font-size:.92rem;margin:0 0 10px}
+    .qtext{font-size:1.02rem;line-height:1.3;margin:10px 0 6px}
+    .grid{display:grid;gap:10px}
+    .btn{width:100%;border:0;border-radius:16px;padding:18px 16px;font-size:1.05rem;font-weight:900;color:#fff;background:var(--primary);cursor:pointer;box-shadow:0 10px 20px rgba(37,99,235,.22);}
+    .btn.secondary{background:var(--secondary);box-shadow:none}
+    .btn.ok{background:var(--ok);box-shadow:none}
+    .btn.link{background:transparent;border:1px solid rgba(148,163,184,.25);color:var(--text);box-shadow:none}
+    .result{margin-top:12px;padding:12px 12px 10px;border-left:5px solid var(--warn);background: rgba(2,6,23,.35);border-radius:14px;}
+    .label{font-weight:900}
+    footer{text-align:center;color:var(--muted);font-size:.8rem;padding:14px 0 0}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="top">
+      <button id="backBtn" class="btn link" style="width:auto;padding:10px 12px;border-radius:14px" onclick="back()">←</button>
+      <div class="pill" id="crumb">Home</div>
+    </div>
+    <h1>ATKJ – ANDA TANYA, KAMI JAWAB</h1>
+  </header>
+
+  <main>
+    <section id="home" class="card">
+      <div class="title">Pilih masalah</div>
+      <p class="muted">Tekan satu isu, ikut soalan sampai dapat jawapan.</p>
+      <div class="grid">
+        <button class="btn" onclick="go('q1_outscan')">🚚 Tidak dapat Outscan</button>
+        <button class="btn secondary" onclick="go('q2_rts')">↩️ Tak boleh Outscan RTS</button>
+        <button class="btn secondary" onclick="go('q3_remit')">🏷️ Barkod Remitan tiada</button>
+      </div>
+    </section>
+
+    <section id="q1_outscan" class="card hidden">
+      <div class="title">Tidak dapat Outscan</div>
+      <p class="muted">Soalan: Q1</p>
+      <div class="qtext">❓ Apakah current flow item ini?</div>
+      <div class="grid" style="margin-top:10px">
+        <button class="btn" onclick="go('r1')">A. Waiting Shipment Transfer</button>
+        <button class="btn secondary" onclick="go('r2')">B. Delivery</button>
+        <button class="btn secondary" onclick="go('r3')">C. Window Delivery</button>
+        <button class="btn secondary" onclick="go('r4')">D. Waiting For Console Delivery Status</button>
+        <button class="btn secondary" onclick="go('r5')">E. Wait for Pickup</button>
+        <button class="btn secondary" onclick="go('r6')">F. Web Inbound</button>
+        <button class="btn secondary" onclick="go('r7')">G. Waiting for Pre_a</button>
+      </div>
+      <button class="btn link" onclick="go('home')" style="margin-top:12px">🏠 Home</button>
+    </section>
+
+    <section id="q2_rts" class="card hidden">
+      <div class="title">Tak boleh Outscan RTS</div>
+      <p class="muted">Soalan: Q2</p>
+      <div class="qtext">❓ Apakah current flow item ini?</div>
+      <div class="grid" style="margin-top:10px">
+        <button class="btn" onclick="go('r8')">A. Waiting International Update</button>
+        <button class="btn secondary" onclick="go('r9')">B. Delivery</button>
+      </div>
+      <button class="btn link" onclick="go('home')" style="margin-top:12px">🏠 Home</button>
+    </section>
+
+    <section id="q3_remit" class="card hidden">
+      <div class="title">Barkod Remitan tiada</div>
+      <p class="muted">Soalan: Q3</p>
+      <div class="qtext">❓ Anda anda sudah generate barkod?</div>
+      <div class="grid" style="margin-top:10px">
+        <button class="btn" onclick="go('r10')">✅ Ya</button>
+        <button class="btn secondary" onclick="go('r11')">❌ Tidak</button>
+      </div>
+      <button class="btn link" onclick="go('home')" style="margin-top:12px">🏠 Home</button>
+    </section>
+
+    <section id="r1" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">PUNCA:</span><br/>Item masih di Mid Mile</div>
+      <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Buat Force Inbound dan teruskan Outscan</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r2" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">PUNCA:</span><br/>Item berada di cawangan lain</div>
+      <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Buat 'Miscoded' dan teruskan Outscan</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r3" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">PUNCA:</span><br/>Item Masih berada pada Window Delivery</div>
+      <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Reattempt delivery pada Window Delivery</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r4" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">PUNCA:</span><br/>Item Masih berada dalam konsol Last Mile</div>
+      <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Last Mile Order - Remove from psm - pilih nombor item - cancel process</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r5" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">PUNCA:</span><br/>Item tiada penerimaan (Acceptance)</div>
+      <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Item perlu di buat Penerimaan oleh pejabat pengirim</div>
+      <div style="margin-top:10px"><span class="label">ESCALATION:</span><br/>Hubungi State Trainer</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r6" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">PUNCA:</span><br/>Item tiada penerimaan (Acceptance)</div>
+      <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Item perlu di buat Penerimaan oleh pejabat pengirim</div>
+      <div style="margin-top:10px"><span class="label">ESCALATION:</span><br/>Hubungi State Trainer</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r7" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">PUNCA:</span><br/>Item tiada penerimaan (Acceptance)</div>
+      <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Item perlu di buat Penerimaan oleh pejabat pengirim</div>
+      <div style="margin-top:10px"><span class="label">ESCALATION:</span><br/>Hubungi State Trainer</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r8" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">PUNCA:</span><br/>Item belum di buat imbasan RTS</div>
+      <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Buat 'Initiate RTS' dan masukkan poskod perngirim</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r9" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">PUNCA:</span><br/>Item belum di buat imbasan RTS</div>
+      <div style="margin-top:10px"><span class="label">TINDAKAN:</span><br/>Buat 'Initiate RTS' dan masukkan poskod perngirim</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r10" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">TINDAKAN:</span><br/>Sila hubungi State Trainer Negeri</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+    <section id="r11" class="card hidden"><div class="title">Jawapan</div><div class="result">
+      <div><span class="label">TINDAKAN:</span><br/>Sila klik "Generate Barcode"</div>
+    </div><button class="btn ok" onclick="go('home')">Semak masalah lain</button></section>
+
+  </main>
+
+  <footer>ATKJ • Mobile-friendly • index.html</footer>
+</div>
+
+<script>
+  const screens = ['home','q1_outscan','q2_rts','q3_remit','r1','r2','r3','r4','r5','r6','r7','r8','r9','r10','r11'];
+  let stack = [];
+  const crumb = document.getElementById('crumb');
+  const backBtn = document.getElementById('backBtn');
+
+  function show(id){
+    screens.forEach(s => document.getElementById(s).classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    window.scrollTo(0,0);
+  }
+  function setCrumb(id){
+    if(id==='home'){ crumb.textContent='Home'; return; }
+    if(id==='q1_outscan'){ crumb.textContent='Tidak dapat Outscan'; return; }
+    if(id==='q2_rts'){ crumb.textContent='Tak boleh Outscan RTS'; return; }
+    if(id==='q3_remit'){ crumb.textContent='Barkod Remitan tiada'; return; }
+    crumb.textContent='Jawapan';
+  }
+  function go(id){
+    const current = screens.find(s => !document.getElementById(s).classList.contains('hidden')) || 'home';
+    stack.push(current);
+    backBtn.style.visibility = stack.length ? 'visible' : 'hidden';
+    setCrumb(id);
+    show(id);
+  }
+  function back(){
+    const prev = stack.pop() || 'home';
+    backBtn.style.visibility = stack.length ? 'visible' : 'hidden';
+    setCrumb(prev);
+    show(prev);
+  }
+  backBtn.style.visibility='hidden';
+  setCrumb('home');
+</script>
+</body>
+</html>
